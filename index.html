@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>刘霖学校2025年秋季校队情况统计</title>
+    <title>刘霖学校2025年秋季9月份校队情况统计</title>
     <style>
         * {
             box-sizing: border-box;
@@ -293,6 +293,16 @@
         .team-header.expanded .expand-icon {
             transform: rotate(180deg);
         }
+        .delete-team-btn {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            padding: 2px 8px;
+            cursor: pointer;
+            font-size: 12px;
+            margin-left: 10px;
+        }
         @media (max-width: 768px) {
             .class-list {
                 grid-template-columns: 1fr;
@@ -308,7 +318,7 @@
         <h1>刘霖学校2025年秋季9月份校队情况统计</h1>
         
         <div class="summary">
-            <p>全校共计26支校队，总计428名校队学生</p>
+            <p id="totalSummary">全校共计26支校队，总计428名校队学生</p>
         </div>
         
         <div class="search-box">
@@ -441,6 +451,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             // 生成班级汇总数据
             generateClassSummary();
+            updateTotalSummary();
             
             // 标签页切换
             document.querySelectorAll('.tab').forEach(tab => {
@@ -499,6 +510,27 @@
             });
         });
 
+        // 更新总统计
+        function updateTotalSummary() {
+            let totalTeams = 0;
+            let totalStudents = 0;
+            
+            // 计算小学部
+            totalTeams += Object.keys(teamData.primary).length;
+            for (const team in teamData.primary) {
+                totalStudents += teamData.primary[team].length;
+            }
+            
+            // 计算初中部
+            totalTeams += Object.keys(teamData.middle).length;
+            for (const team in teamData.middle) {
+                totalStudents += teamData.middle[team].length;
+            }
+            
+            document.getElementById('totalSummary').textContent = 
+                `全校共计${totalTeams}支校队，总计${totalStudents}名校队学生`;
+        }
+
         // 生成班级汇总数据
         function generateClassSummary() {
             // 清空现有内容
@@ -507,11 +539,11 @@
             
             // 生成小学部班级汇总
             const primaryClasses = organizeByClass(teamData.primary);
-            renderClassSummary('primary-classes', primaryClasses);
+            renderClassSummary('primary-classes', primaryClasses, 'primary');
             
             // 生成初中部班级汇总
             const middleClasses = organizeByClass(teamData.middle);
-            renderClassSummary('middle-classes', middleClasses);
+            renderClassSummary('middle-classes', middleClasses, 'middle');
         }
 
         // 按班级组织数据
@@ -535,7 +567,7 @@
         }
 
         // 渲染班级汇总
-        function renderClassSummary(containerId, classesData) {
+        function renderClassSummary(containerId, classesData, department) {
             const container = document.getElementById(containerId);
             
             if (Object.keys(classesData).length === 0) {
@@ -580,6 +612,19 @@
                     teamHeader.appendChild(teamNameDiv);
                     teamHeader.appendChild(expandIcon);
                     
+                    // 如果是管理员登录状态，显示删除校队按钮
+                    if (isAdminLoggedIn) {
+                        const deleteTeamBtn = document.createElement('button');
+                        deleteTeamBtn.className = 'delete-team-btn';
+                        deleteTeamBtn.textContent = '删除校队';
+                        deleteTeamBtn.addEventListener('click', function(e) {
+                            e.stopPropagation(); // 阻止事件冒泡
+                            deleteTeam(department, teamName, classInfo);
+                        });
+                        
+                        teamHeader.appendChild(deleteTeamBtn);
+                    }
+                    
                     const studentList = document.createElement('div');
                     studentList.className = 'student-list';
                     
@@ -599,7 +644,7 @@
                             deleteBtn.className = 'delete-btn';
                             deleteBtn.textContent = '删除';
                             deleteBtn.addEventListener('click', function() {
-                                deleteStudent(classInfo, teamName, student);
+                                deleteStudent(classInfo, teamName, student, department);
                             });
                             
                             studentItem.appendChild(deleteBtn);
@@ -638,13 +683,13 @@
             const filteredPrimary = filterTeams(teamData.primary, searchTerm);
             const primaryClasses = organizeByClass(filteredPrimary);
             document.getElementById('primary-classes').innerHTML = '';
-            renderClassSummary('primary-classes', primaryClasses);
+            renderClassSummary('primary-classes', primaryClasses, 'primary');
             
             // 搜索初中部
             const filteredMiddle = filterTeams(teamData.middle, searchTerm);
             const middleClasses = organizeByClass(filteredMiddle);
             document.getElementById('middle-classes').innerHTML = '';
-            renderClassSummary('middle-classes', middleClasses);
+            renderClassSummary('middle-classes', middleClasses, 'middle');
         }
 
         // 过滤校队数据
@@ -753,7 +798,8 @@
                 teamData[department][team].push(studentInfo);
                 document.getElementById('addStudentForm').style.display = 'none';
                 clearStudentForm();
-                generateClassSummary();
+                generateClassSummary(); // 重新生成整个页面
+                updateTotalSummary(); // 更新统计信息
                 alert('学生添加成功！');
             } else {
                 alert('该学生已在该校队中！');
@@ -761,22 +807,39 @@
         }
 
         // 删除学生
-        function deleteStudent(className, teamName, studentName) {
+        function deleteStudent(className, teamName, studentName, department) {
             if (confirm(`确定要删除 ${className} 班的 ${studentName} 同学吗？`)) {
-                // 确定学部
-                let department = 'primary';
-                if (teamName in teamData.middle) {
-                    department = 'middle';
-                }
-                
                 // 删除学生
                 const studentInfo = `${className}-${studentName}`;
                 const index = teamData[department][teamName].indexOf(studentInfo);
                 if (index > -1) {
                     teamData[department][teamName].splice(index, 1);
-                    generateClassSummary();
+                    generateClassSummary(); // 重新生成整个页面
+                    updateTotalSummary(); // 更新统计信息
                     alert('学生删除成功！');
                 }
+            }
+        }
+
+        // 删除校队
+        function deleteTeam(department, teamName, className) {
+            if (confirm(`确定要删除 ${className} 班的 ${teamName} 校队吗？这将删除该班所有该校队的学生！`)) {
+                // 删除该班级中该校队的所有学生
+                const studentsToRemove = teamData[department][teamName].filter(student => {
+                    return student.startsWith(className + '-');
+                });
+                
+                // 从校队中移除这些学生
+                studentsToRemove.forEach(student => {
+                    const index = teamData[department][teamName].indexOf(student);
+                    if (index > -1) {
+                        teamData[department][teamName].splice(index, 1);
+                    }
+                });
+                
+                generateClassSummary(); // 重新生成整个页面
+                updateTotalSummary(); // 更新统计信息
+                alert('校队删除成功！');
             }
         }
 
@@ -800,7 +863,8 @@
             teamData[teamType][teamName] = [];
             document.getElementById('addTeamForm').style.display = 'none';
             clearTeamForm();
-            generateClassSummary();
+            generateClassSummary(); // 重新生成整个页面
+            updateTotalSummary(); // 更新统计信息
             alert('校队添加成功！');
         }
 
