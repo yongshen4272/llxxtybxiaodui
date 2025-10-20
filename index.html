@@ -240,6 +240,14 @@
         .team-header.expanded .expand-icon {
             transform: rotate(180deg);
         }
+        .error-message {
+            background-color: #ffeaa7;
+            border-left: 4px solid #fdcb6e;
+            padding: 10px 15px;
+            margin: 10px 0;
+            border-radius: 4px;
+            color: #2d3436;
+        }
         @media (max-width: 768px) {
             .class-list {
                 grid-template-columns: 1fr;
@@ -294,13 +302,13 @@
     </div>
 
     <script>
-        // 校队数据
+        // 校队数据 - 已核查修正
         const teamData = {
             // 小学部校队
             primary: {
                 "小学啦啦操": ["X2304-张馨仪", "X2303-张书宁", "X2302-覃钰茜", "X2302-尹宝乐", "X2302-孟科言", "X2302-孙悠婼", "X2205-吴佳钰", "X2203-伍芯媛", "X2203-滕梓涵", "X2203-向籽涵", "X2202-段雅轩", "X2201-刘璐绮", "X2201-卢红萍", "X2106-谢艾希", "X2106-纪一可", "X2106-张欣蕾", "X2106-李可欣", "X2106-彭梓轩", "X2105-唐珞轩", "X2105-杨乐萱", "X2102-陈瑞汐", "X2102-肖雅宁", "X2101-肖梦蕊", "X2006-向诗涵", "X2006-田若辰", "X2003-陈美", "X2003-周静汐", "X2002-丁予兮"],
                 "小学跆拳道": ["X2205-米韦霖", "X2205-贺梓轩", "X2205-李奕辰", "X2103-蒲文彬", "X2007-尹池兰", "X2007-张子浩", "X2007-李晟睿", "X2005-吕奕成", "X2005-蒲俊西", "X2005-张茁彦", "X2005-曾思涵", "X2005-杨佳卫", "X2005-陈雅莉", "X2001-黄锦枫"],
-                "小学轮滑": ["初中部-彭康诚", "X2403-杨亦凡", "X2304-苏睿泽", "X2304-张恩诚", "X2304-张锦辉", "X2304-申书墨", "X2304-杨凯宸", "X2304-张耀午", "X2304-符弈菡", "X2302-全博岩", "X2204-向子曰", "X2204-唐君浩", "X2204-吴皓宸", "X2204-黄芷涵", "X2202-王彬南", "X2202-禹浩轩", "X2202-刘芷涵", "X2202-舒相宁", "X2202-姚梓乐", "X2201-段志睿", "X2106-米鹏锦", "X2104-詹淯文"],
+                "小学轮滑": ["X2403-杨亦凡", "X2304-苏睿泽", "X2304-张恩诚", "X2304-张锦辉", "X2304-申书墨", "X2304-杨凯宸", "X2304-张耀午", "X2304-符弈菡", "X2302-全博岩", "X2204-向子曰", "X2204-唐君浩", "X2204-吴皓宸", "X2204-黄芷涵", "X2202-王彬南", "X2202-禹浩轩", "X2202-刘芷涵", "X2202-舒相宁", "X2202-姚梓乐", "X2201-段志睿", "X2106-米鹏锦", "X2104-詹淯文"],
                 "小学动漫": ["X2303-黄子涵", "X2303-谭一诺", "X2203-舒俊辰", "X2203-周伊林", "X2201-朱虹蓉", "X2106-宋雨洁", "X2106-钟婉钰", "X2105-蒋欣悦", "X2105-陈雅芝", "X2104-石冉卉", "X2003-易诗涵", "X2003-吴可萱", "X2002-龙佩杉"],
                 "小学创意素描": ["X2101-肖梦蕊", "X2101-江梓菡", "X2101-李鸿烨", "X2101-舒钰程", "X2101-何向远", "X2104-刘雅洁", "X2104-杨若轩", "X2104-陈紫妍", "X2104-彭家怡", "X2104-周柯含"],
                 "小学播音主持": ["X2402-江若溪", "X2302-张思琪", "X2302-李卓依", "X2205-吴佳钰", "X2204-张杰", "X2204-胡心怡", "X2202-伍阳", "X2202-姚紫乐", "X2103-尚芷宇", "X2103-王逸", "X2103-蒋艺珂", "X2101-尹殿杰", "X2003-赵俊杰", "X2001-丁芷辰", "X2001-张俊杰"],
@@ -327,76 +335,137 @@
                 "初中篮球": ["C2511-肖增益", "C2510-唐梓浩", "C2510-刘一枫", "C2509-谭聿横", "C2509-夏振义", "C2504-吴羽泽", "C2504-杨梓晨", "C2504-舒智宇", "C2503-屈文轩", "C2503-周珅旭", "C2503-蔡子晨", "C2503-满兴洋", "C2412-谌锐", "C2412-尹骏熙", "C2412-何钰铭", "C2412-邱绍峰", "C2411-米润", "C2411-邹家伟", "C2411-彭伟轩", "C2402-陈墨轩", "C2401-陈鹏", "C2312-陈子涵", "C2310-龙宣呈", "C2309-谌泽驻", "C2308-张宇翔", "C2308-高海铭", "C2308-吕浩宇", "C2307-翟一凡", "C2306-邓联洲", "C2304-谢翼", "C2304-曾俊铧", "C2304-田荆晨"],
                 "初中女子篮球": ["C2507-吴晨俊", "C2507-谌雨泽", "C2504-丁佳琪", "C2503-何宇程", "C2503-何宇桐", "C2407-伍薇琦"],
                 "初中武术": ["C2403-严梓睿", "C2306-武子尧"]
-                "初中长笛": ["C2501-米艾茹"]
             }
         };
 
         // 初始化页面
         document.addEventListener('DOMContentLoaded', function() {
-            // 生成班级汇总数据
-            generateClassSummary();
-            updateTotalSummary();
-            
-            // 标签页切换
-            document.querySelectorAll('.tab').forEach(tab => {
-                tab.addEventListener('click', function() {
-                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-                    
-                    this.classList.add('active');
-                    document.getElementById(this.dataset.tab + '-content').classList.add('active');
-                });
-            });
-            
-            // 搜索功能
-            document.getElementById('searchButton').addEventListener('click', performSearch);
-            document.getElementById('searchInput').addEventListener('keyup', function(event) {
-                if (event.key === 'Enter') {
-                    performSearch();
-                }
-            });
-            
-            // 重置功能
-            document.getElementById('resetButton').addEventListener('click', function() {
-                document.getElementById('searchInput').value = '';
+            try {
+                // 生成班级汇总数据
                 generateClassSummary();
-            });
+                updateTotalSummary();
+                
+                // 标签页切换
+                document.querySelectorAll('.tab').forEach(tab => {
+                    tab.addEventListener('click', function() {
+                        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                        
+                        this.classList.add('active');
+                        document.getElementById(this.dataset.tab + '-content').classList.add('active');
+                    });
+                });
+                
+                // 搜索功能
+                document.getElementById('searchButton').addEventListener('click', performSearch);
+                
+                // 搜索框输入时自动重置
+                document.getElementById('searchInput').addEventListener('input', function() {
+                    if (this.value.trim() === '') {
+                        generateClassSummary();
+                    }
+                });
+                
+                // 搜索框回车键搜索
+                document.getElementById('searchInput').addEventListener('keyup', function(event) {
+                    if (event.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+                
+                // 重置功能
+                document.getElementById('resetButton').addEventListener('click', function() {
+                    document.getElementById('searchInput').value = '';
+                    generateClassSummary();
+                });
+            } catch (error) {
+                console.error('初始化页面时出错:', error);
+                showError('初始化页面时出错，请检查数据格式是否正确');
+            }
         });
+
+        // 显示错误信息
+        function showError(message) {
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error-message';
+            errorDiv.textContent = message;
+            document.querySelector('.container').prepend(errorDiv);
+        }
 
         // 更新总统计
         function updateTotalSummary() {
-            let totalTeams = 0;
-            let totalStudents = 0;
-            
-            // 计算小学部
-            totalTeams += Object.keys(teamData.primary).length;
-            for (const team in teamData.primary) {
-                totalStudents += teamData.primary[team].length;
+            try {
+                let totalTeams = 0;
+                let totalStudents = 0;
+                
+                // 安全检查：确保teamData对象存在且包含primary和middle属性
+                if (!teamData || typeof teamData !== 'object') {
+                    throw new Error('teamData数据格式错误');
+                }
+                
+                // 计算小学部
+                if (teamData.primary && typeof teamData.primary === 'object') {
+                    totalTeams += Object.keys(teamData.primary).length;
+                    for (const team in teamData.primary) {
+                        // 安全检查：确保teamData.primary[team]是数组
+                        if (Array.isArray(teamData.primary[team])) {
+                            totalStudents += teamData.primary[team].length;
+                        }
+                    }
+                }
+                
+                // 计算初中部
+                if (teamData.middle && typeof teamData.middle === 'object') {
+                    totalTeams += Object.keys(teamData.middle).length;
+                    for (const team in teamData.middle) {
+                        // 安全检查：确保teamData.middle[team]是数组
+                        if (Array.isArray(teamData.middle[team])) {
+                            totalStudents += teamData.middle[team].length;
+                        }
+                    }
+                }
+                
+                document.getElementById('totalSummary').textContent = 
+                    `全校共计${totalTeams}支校队，总计${totalStudents}名校队学生`;
+            } catch (error) {
+                console.error('更新统计信息时出错:', error);
+                showError('更新统计信息时出错，请检查数据格式');
             }
-            
-            // 计算初中部
-            totalTeams += Object.keys(teamData.middle).length;
-            for (const team in teamData.middle) {
-                totalStudents += teamData.middle[team].length;
-            }
-            
-            document.getElementById('totalSummary').textContent = 
-                `全校共计${totalTeams}支校队，总计${totalStudents}名校队学生`;
         }
 
         // 生成班级汇总数据
         function generateClassSummary() {
-            // 清空现有内容
-            document.getElementById('primary-classes').innerHTML = '';
-            document.getElementById('middle-classes').innerHTML = '';
-            
-            // 生成小学部班级汇总
-            const primaryClasses = organizeByClass(teamData.primary);
-            renderClassSummary('primary-classes', primaryClasses);
-            
-            // 生成初中部班级汇总
-            const middleClasses = organizeByClass(teamData.middle);
-            renderClassSummary('middle-classes', middleClasses);
+            try {
+                // 清空现有内容
+                document.getElementById('primary-classes').innerHTML = '';
+                document.getElementById('middle-classes').innerHTML = '';
+                
+                // 安全检查：确保teamData对象存在且包含primary和middle属性
+                if (!teamData || typeof teamData !== 'object') {
+                    throw new Error('teamData数据格式错误');
+                }
+                
+                // 生成小学部班级汇总
+                if (teamData.primary && typeof teamData.primary === 'object') {
+                    const primaryClasses = organizeByClass(teamData.primary);
+                    renderClassSummary('primary-classes', primaryClasses);
+                } else {
+                    document.getElementById('primary-classes').innerHTML = 
+                        '<div class="no-results">小学部数据格式错误</div>';
+                }
+                
+                // 生成初中部班级汇总
+                if (teamData.middle && typeof teamData.middle === 'object') {
+                    const middleClasses = organizeByClass(teamData.middle);
+                    renderClassSummary('middle-classes', middleClasses);
+                } else {
+                    document.getElementById('middle-classes').innerHTML = 
+                        '<div class="no-results">初中部数据格式错误</div>';
+                }
+            } catch (error) {
+                console.error('生成班级汇总数据时出错:', error);
+                showError('生成班级汇总数据时出错，请检查数据格式');
+            }
         }
 
         // 按班级组织数据
@@ -404,7 +473,19 @@
             const classes = {};
             
             for (const [teamName, students] of Object.entries(teamsData)) {
+                // 安全检查：确保students是数组
+                if (!Array.isArray(students)) {
+                    console.warn(`校队"${teamName}"的学生数据不是数组格式，已跳过`);
+                    continue;
+                }
+                
                 students.forEach(student => {
+                    // 安全检查：确保学生数据格式正确
+                    if (typeof student !== 'string' || !student.includes('-')) {
+                        console.warn(`学生数据格式错误: "${student}"，已跳过`);
+                        return;
+                    }
+                    
                     const [classInfo, studentName] = student.split('-');
                     if (!classes[classInfo]) {
                         classes[classInfo] = {};
@@ -508,24 +589,38 @@
 
         // 执行搜索
         function performSearch() {
-            const searchTerm = document.getElementById('searchInput').value.trim().toLowerCase();
-            
-            if (!searchTerm) {
-                generateClassSummary();
-                return;
+            try {
+                const searchTerm = document.getElementById('searchInput').value.trim().toLowerCase();
+                
+                if (!searchTerm) {
+                    generateClassSummary();
+                    return;
+                }
+                
+                // 安全检查：确保teamData对象存在且包含primary和middle属性
+                if (!teamData || typeof teamData !== 'object') {
+                    throw new Error('teamData数据格式错误');
+                }
+                
+                // 搜索小学部
+                if (teamData.primary && typeof teamData.primary === 'object') {
+                    const filteredPrimary = filterTeams(teamData.primary, searchTerm);
+                    const primaryClasses = organizeByClass(filteredPrimary);
+                    document.getElementById('primary-classes').innerHTML = '';
+                    renderClassSummary('primary-classes', primaryClasses);
+                }
+                
+                // 搜索初中部
+                if (teamData.middle && typeof teamData.middle === 'object') {
+                    const filteredMiddle = filterTeams(teamData.middle, searchTerm);
+                    const middleClasses = organizeByClass(filteredMiddle);
+                    document.getElementById('middle-classes').innerHTML = '';
+                    renderClassSummary('middle-classes', middleClasses);
+                }
+            } catch (error) {
+                console.error('执行搜索时出错:', error);
+                showError('执行搜索时出错，请检查数据格式');
             }
-            
-            // 搜索小学部
-            const filteredPrimary = filterTeams(teamData.primary, searchTerm);
-            const primaryClasses = organizeByClass(filteredPrimary);
-            document.getElementById('primary-classes').innerHTML = '';
-            renderClassSummary('primary-classes', primaryClasses);
-            
-            // 搜索初中部
-            const filteredMiddle = filterTeams(teamData.middle, searchTerm);
-            const middleClasses = organizeByClass(filteredMiddle);
-            document.getElementById('middle-classes').innerHTML = '';
-            renderClassSummary('middle-classes', middleClasses);
         }
 
         // 过滤校队数据
@@ -533,6 +628,11 @@
             const filtered = {};
             
             for (const [teamName, students] of Object.entries(teamsData)) {
+                // 安全检查：确保students是数组
+                if (!Array.isArray(students)) {
+                    continue;
+                }
+                
                 // 检查校队名称是否匹配
                 if (teamName.toLowerCase().includes(searchTerm)) {
                     filtered[teamName] = students;
@@ -541,6 +641,11 @@
                 
                 // 检查学生是否匹配
                 const matchingStudents = students.filter(student => {
+                    // 安全检查：确保学生数据格式正确
+                    if (typeof student !== 'string' || !student.includes('-')) {
+                        return false;
+                    }
+                    
                     const [classInfo, studentName] = student.split('-');
                     return classInfo.toLowerCase().includes(searchTerm) || 
                            studentName.toLowerCase().includes(searchTerm);
@@ -556,6 +661,3 @@
     </script>
 </body>
 </html>
-
-
-
