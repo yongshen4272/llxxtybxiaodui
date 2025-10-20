@@ -12,7 +12,7 @@
             font-family: "Microsoft YaHei", sans-serif;
         }
         body {
-            background-color: #f5f5f5;
+            background-color: #f5f7fa;
             color: #333;
             line-height: 1.6;
             padding: 20px;
@@ -21,83 +21,123 @@
             max-width: 1200px;
             margin: 0 auto;
             background: white;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            padding: 25px;
         }
         h1 {
             text-align: center;
             color: #2c3e50;
             margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #eee;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #ecf0f1;
         }
         .section-title {
-            background-color: #3498db;
+            background: linear-gradient(135deg, #3498db, #2c3e50);
             color: white;
-            padding: 10px 15px;
-            border-radius: 5px;
-            margin: 20px 0 15px;
-            font-size: 1.2em;
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin: 25px 0 20px;
+            font-size: 1.3em;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
         }
         .search-box {
-            margin: 20px 0;
+            margin: 25px 0;
             display: flex;
-            gap: 10px;
+            gap: 12px;
             flex-wrap: wrap;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
         }
         .search-box input {
             flex: 1;
-            min-width: 200px;
-            padding: 10px;
+            min-width: 250px;
+            padding: 12px 15px;
             border: 1px solid #ddd;
-            border-radius: 4px;
+            border-radius: 6px;
             font-size: 16px;
+            transition: all 0.3s;
+        }
+        .search-box input:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+            outline: none;
         }
         .search-box button {
-            padding: 10px 20px;
-            background-color: #3498db;
+            padding: 12px 25px;
+            background: linear-gradient(135deg, #3498db, #2980b9);
             color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
             cursor: pointer;
             font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
         .search-box button:hover {
-            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
         }
         .class-list {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
         }
         .class-card {
-            border: 1px solid #ddd;
-            border-radius: 5px;
+            border: 1px solid #e1e8ed;
+            border-radius: 10px;
             overflow: hidden;
             background: white;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+        }
+        .class-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
         }
         .class-header {
-            background-color: #2c3e50;
+            background: linear-gradient(135deg, #2c3e50, #34495e);
             color: white;
-            padding: 10px 15px;
+            padding: 15px 20px;
             font-weight: bold;
+            font-size: 1.1em;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .class-count {
+            background: #3498db;
+            color: white;
+            border-radius: 15px;
+            padding: 4px 12px;
+            font-size: 0.9em;
         }
         .team-list {
-            padding: 10px;
+            padding: 15px;
         }
         .team-item {
-            margin-bottom: 10px;
-            border-bottom: 1px dashed #eee;
-            padding-bottom: 10px;
+            margin-bottom: 15px;
+            border-bottom: 1px dashed #ecf0f1;
+            padding-bottom: 15px;
+        }
+        .team-item:last-child {
+            border-bottom: none;
         }
         .team-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             cursor: pointer;
-            padding: 5px 0;
+            padding: 8px 0;
+            transition: all 0.2s;
+        }
+        .team-header:hover {
+            background-color: #f8f9fa;
+            border-radius: 6px;
+            padding-left: 10px;
         }
         .team-name {
             font-weight: bold;
@@ -114,53 +154,61 @@
             margin-left: 8px;
         }
         .student-list {
-            padding-left: 15px;
+            padding-left: 20px;
             color: #555;
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.3s ease;
+            transition: max-height 0.4s ease;
         }
         .student-list.expanded {
             max-height: 500px;
         }
         .student-item {
-            margin-bottom: 3px;
+            margin-bottom: 5px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 3px 0;
+            padding: 6px 0;
+            border-bottom: 1px dotted #f1f1f1;
+        }
+        .student-item:last-child {
+            border-bottom: none;
         }
         .student-name {
             flex: 1;
         }
-        .admin-controls {
-            display: none;
-        }
         .no-results {
             text-align: center;
-            padding: 20px;
+            padding: 30px;
             color: #7f8c8d;
             font-style: italic;
+            font-size: 1.1em;
         }
         .tabs {
             display: flex;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             border-bottom: 1px solid #ddd;
         }
         .tab {
-            padding: 10px 20px;
+            padding: 12px 25px;
             cursor: pointer;
             border: 1px solid transparent;
             border-bottom: none;
-            border-radius: 5px 5px 0 0;
+            border-radius: 8px 8px 0 0;
             margin-right: 5px;
             background-color: #f8f9fa;
+            transition: all 0.3s;
+            font-weight: bold;
         }
         .tab.active {
             background-color: white;
             border-color: #ddd;
             border-bottom-color: white;
             margin-bottom: -1px;
+            color: #3498db;
+        }
+        .tab:hover:not(.active) {
+            background-color: #e9ecef;
         }
         .tab-content {
             display: none;
@@ -169,155 +217,53 @@
             display: block;
         }
         .summary {
-            background-color: #f8f9fa;
-            padding: 15px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        .admin-panel {
-            background-color: #f8f9fa;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
             padding: 20px;
-            border-radius: 5px;
-            margin-top: 30px;
-            border: 1px solid #ddd;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            text-align: center;
+            border: 1px solid #e1e8ed;
         }
-        .admin-login {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-        .admin-login input {
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-        .admin-login button {
-            padding: 8px 15px;
-            background-color: #2c3e50;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .admin-actions {
-            display: none;
-            margin-top: 15px;
-        }
-        .admin-form {
-            background-color: white;
-            padding: 15px;
-            border-radius: 5px;
-            margin-top: 15px;
-            border: 1px solid #ddd;
-        }
-        .admin-form h3 {
-            margin-bottom: 15px;
+        .summary h2 {
             color: #2c3e50;
+            margin-bottom: 10px;
         }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-        .form-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
-        .btn {
-            padding: 8px 15px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .btn-primary {
-            background-color: #3498db;
-            color: white;
-        }
-        .btn-danger {
-            background-color: #e74c3c;
-            color: white;
-        }
-        .btn-success {
-            background-color: #2ecc71;
-            color: white;
-        }
-        .logout-btn {
-            background-color: #95a5a6;
-            color: white;
-            padding: 5px 10px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-left: 10px;
-        }
-        .delete-btn {
-            background-color: #e74c3c;
-            color: white;
-            border: none;
-            border-radius: 3px;
-            padding: 2px 6px;
-            cursor: pointer;
-            font-size: 12px;
-        }
-        .edit-btn {
-            background-color: #f39c12;
-            color: white;
-            border: none;
-            border-radius: 3px;
-            padding: 2px 6px;
-            cursor: pointer;
-            font-size: 12px;
-            margin-right: 5px;
-        }
-        .admin-status {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
+        .summary p {
+            font-size: 1.1em;
+            color: #34495e;
         }
         .expand-icon {
             margin-left: 5px;
             transition: transform 0.3s ease;
+            font-size: 0.9em;
         }
         .team-header.expanded .expand-icon {
             transform: rotate(180deg);
-        }
-        .delete-team-btn {
-            background-color: #e74c3c;
-            color: white;
-            border: none;
-            border-radius: 3px;
-            padding: 2px 8px;
-            cursor: pointer;
-            font-size: 12px;
-            margin-left: 10px;
         }
         @media (max-width: 768px) {
             .class-list {
                 grid-template-columns: 1fr;
             }
-            .admin-login {
+            .search-box {
                 flex-direction: column;
+            }
+            .tabs {
+                flex-wrap: wrap;
+            }
+            .tab {
+                flex: 1;
+                text-align: center;
+                margin-bottom: 5px;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>刘霖学校2025年秋季校队情况统计</h1>
+        <h1>刘霖学校2025秋季各班校队情况统计</h1>
         
         <div class="summary">
+            <h2>校队情况总览</h2>
             <p id="totalSummary">全校共计26支校队，总计428名校队学生</p>
         </div>
         
@@ -345,71 +291,11 @@
                 <!-- 初中部班级内容将通过JavaScript动态生成 -->
             </div>
         </div>
-        
-        <div class="admin-panel">
-            <h2 class="section-title">后台管理系统</h2>
-            <div class="admin-login" id="adminLogin">
-                <input type="text" id="adminUsername" placeholder="管理员账号">
-                <input type="password" id="adminPassword" placeholder="管理员密码">
-                <button id="loginButton">登录</button>
-            </div>
-            <div class="admin-actions" id="adminActions">
-                <div class="admin-status">
-                    <span>管理员已登录</span>
-                    <button class="logout-btn" id="logoutButton">退出登录</button>
-                </div>
-                <div class="form-actions">
-                    <button class="btn btn-primary" id="addStudentBtn">添加学生</button>
-                    <button class="btn btn-success" id="addTeamBtn">添加校队</button>
-                </div>
-                
-                <div class="admin-form" id="addStudentForm" style="display: none;">
-                    <h3>添加学生到校队</h3>
-                    <div class="form-group">
-                        <label for="studentName">学生姓名</label>
-                        <input type="text" id="studentName" placeholder="请输入学生姓名">
-                    </div>
-                    <div class="form-group">
-                        <label for="studentClass">班级</label>
-                        <input type="text" id="studentClass" placeholder="请输入班级，如X2101">
-                    </div>
-                    <div class="form-group">
-                        <label for="studentTeam">所属校队</label>
-                        <select id="studentTeam">
-                            <!-- 校队选项将通过JavaScript动态生成 -->
-                        </select>
-                    </div>
-                    <div class="form-actions">
-                        <button class="btn btn-primary" id="saveStudentBtn">保存</button>
-                        <button class="btn" id="cancelStudentBtn">取消</button>
-                    </div>
-                </div>
-                
-                <div class="admin-form" id="addTeamForm" style="display: none;">
-                    <h3>添加新校队</h3>
-                    <div class="form-group">
-                        <label for="newTeamName">校队名称</label>
-                        <input type="text" id="newTeamName" placeholder="请输入校队名称">
-                    </div>
-                    <div class="form-group">
-                        <label for="newTeamType">学部</label>
-                        <select id="newTeamType">
-                            <option value="primary">小学部</option>
-                            <option value="middle">初中部</option>
-                        </select>
-                    </div>
-                    <div class="form-actions">
-                        <button class="btn btn-primary" id="saveTeamBtn">保存</button>
-                        <button class="btn" id="cancelTeamBtn">取消</button>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 
     <script>
         // 校队数据
-        let teamData = {
+        const teamData = {
             // 小学部校队
             primary: {
                 "小学啦啦操": ["X2304-张馨仪", "X2303-张书宁", "X2302-覃钰茜", "X2302-尹宝乐", "X2302-孟科言", "X2302-孙悠婼", "X2205-吴佳钰", "X2203-伍芯媛", "X2203-滕梓涵", "X2203-向籽涵", "X2202-段雅轩", "X2201-刘璐绮", "X2201-卢红萍", "X2106-谢艾希", "X2106-纪一可", "X2106-张欣蕾", "X2106-李可欣", "X2106-彭梓轩", "X2105-唐珞轩", "X2105-杨乐萱", "X2102-陈瑞汐", "X2102-肖雅宁", "X2101-肖梦蕊", "X2006-向诗涵", "X2006-田若辰", "X2003-陈美", "X2003-周静汐", "X2002-丁予兮"],
@@ -441,11 +327,9 @@
                 "初中篮球": ["C2511-肖增益", "C2510-唐梓浩", "C2510-刘一枫", "C2509-谭聿横", "C2509-夏振义", "C2504-吴羽泽", "C2504-杨梓晨", "C2504-舒智宇", "C2503-屈文轩", "C2503-周珅旭", "C2503-蔡子晨", "C2503-满兴洋", "C2412-谌锐", "C2412-尹骏熙", "C2412-何钰铭", "C2412-邱绍峰", "C2411-米润", "C2411-邹家伟", "C2411-彭伟轩", "C2402-陈墨轩", "C2401-陈鹏", "C2312-陈子涵", "C2310-龙宣呈", "C2309-谌泽驻", "C2308-张宇翔", "C2308-高海铭", "C2308-吕浩宇", "C2307-翟一凡", "C2306-邓联洲", "C2304-谢翼", "C2304-曾俊铧", "C2304-田荆晨"],
                 "初中女子篮球": ["C2507-吴晨俊", "C2507-谌雨泽", "C2504-丁佳琪", "C2503-何宇程", "C2503-何宇桐", "C2407-伍薇琦"],
                 "初中武术": ["C2403-严梓睿", "C2306-武子尧"]
+                "初中长笛": ["C2501-米艾茹"]
             }
         };
-
-        // 管理员状态
-        let isAdminLoggedIn = false;
 
         // 初始化页面
         document.addEventListener('DOMContentLoaded', function() {
@@ -476,37 +360,6 @@
             document.getElementById('resetButton').addEventListener('click', function() {
                 document.getElementById('searchInput').value = '';
                 generateClassSummary();
-            });
-            
-            // 管理员登录
-            document.getElementById('loginButton').addEventListener('click', adminLogin);
-            
-            // 管理员退出
-            document.getElementById('logoutButton').addEventListener('click', adminLogout);
-            
-            // 管理员操作按钮
-            document.getElementById('addStudentBtn').addEventListener('click', function() {
-                document.getElementById('addStudentForm').style.display = 'block';
-                document.getElementById('addTeamForm').style.display = 'none';
-                populateTeamSelect();
-            });
-            
-            document.getElementById('addTeamBtn').addEventListener('click', function() {
-                document.getElementById('addTeamForm').style.display = 'block';
-                document.getElementById('addStudentForm').style.display = 'none';
-            });
-            
-            // 表单操作
-            document.getElementById('saveStudentBtn').addEventListener('click', saveStudent);
-            document.getElementById('cancelStudentBtn').addEventListener('click', function() {
-                document.getElementById('addStudentForm').style.display = 'none';
-                clearStudentForm();
-            });
-            
-            document.getElementById('saveTeamBtn').addEventListener('click', saveTeam);
-            document.getElementById('cancelTeamBtn').addEventListener('click', function() {
-                document.getElementById('addTeamForm').style.display = 'none';
-                clearTeamForm();
             });
         });
 
@@ -539,11 +392,11 @@
             
             // 生成小学部班级汇总
             const primaryClasses = organizeByClass(teamData.primary);
-            renderClassSummary('primary-classes', primaryClasses, 'primary');
+            renderClassSummary('primary-classes', primaryClasses);
             
             // 生成初中部班级汇总
             const middleClasses = organizeByClass(teamData.middle);
-            renderClassSummary('middle-classes', middleClasses, 'middle');
+            renderClassSummary('middle-classes', middleClasses);
         }
 
         // 按班级组织数据
@@ -567,7 +420,7 @@
         }
 
         // 渲染班级汇总
-        function renderClassSummary(containerId, classesData, department) {
+        function renderClassSummary(containerId, classesData) {
             const container = document.getElementById(containerId);
             
             if (Object.keys(classesData).length === 0) {
@@ -587,9 +440,18 @@
                 const classCard = document.createElement('div');
                 classCard.className = 'class-card';
                 
+                // 计算班级总人数
+                let classTotal = 0;
+                for (const team in classesData[classInfo]) {
+                    classTotal += classesData[classInfo][team].length;
+                }
+                
                 const classHeader = document.createElement('div');
                 classHeader.className = 'class-header';
-                classHeader.textContent = classInfo;
+                classHeader.innerHTML = `
+                    ${classInfo}
+                    <span class="class-count">${classTotal}人</span>
+                `;
                 
                 const teamList = document.createElement('div');
                 teamList.className = 'team-list';
@@ -612,19 +474,6 @@
                     teamHeader.appendChild(teamNameDiv);
                     teamHeader.appendChild(expandIcon);
                     
-                    // 如果是管理员登录状态，显示删除校队按钮
-                    if (isAdminLoggedIn) {
-                        const deleteTeamBtn = document.createElement('button');
-                        deleteTeamBtn.className = 'delete-team-btn';
-                        deleteTeamBtn.textContent = '删除校队';
-                        deleteTeamBtn.addEventListener('click', function(e) {
-                            e.stopPropagation(); // 阻止事件冒泡
-                            deleteTeam(department, teamName, classInfo);
-                        });
-                        
-                        teamHeader.appendChild(deleteTeamBtn);
-                    }
-                    
                     const studentList = document.createElement('div');
                     studentList.className = 'student-list';
                     
@@ -637,19 +486,6 @@
                         studentNameDiv.textContent = student;
                         
                         studentItem.appendChild(studentNameDiv);
-                        
-                        // 如果是管理员登录状态，显示删除按钮
-                        if (isAdminLoggedIn) {
-                            const deleteBtn = document.createElement('button');
-                            deleteBtn.className = 'delete-btn';
-                            deleteBtn.textContent = '删除';
-                            deleteBtn.addEventListener('click', function() {
-                                deleteStudent(classInfo, teamName, student, department);
-                            });
-                            
-                            studentItem.appendChild(deleteBtn);
-                        }
-                        
                         studentList.appendChild(studentItem);
                     });
                     
@@ -683,13 +519,13 @@
             const filteredPrimary = filterTeams(teamData.primary, searchTerm);
             const primaryClasses = organizeByClass(filteredPrimary);
             document.getElementById('primary-classes').innerHTML = '';
-            renderClassSummary('primary-classes', primaryClasses, 'primary');
+            renderClassSummary('primary-classes', primaryClasses);
             
             // 搜索初中部
             const filteredMiddle = filterTeams(teamData.middle, searchTerm);
             const middleClasses = organizeByClass(filteredMiddle);
             document.getElementById('middle-classes').innerHTML = '';
-            renderClassSummary('middle-classes', middleClasses, 'middle');
+            renderClassSummary('middle-classes', middleClasses);
         }
 
         // 过滤校队数据
@@ -717,169 +553,6 @@
             
             return filtered;
         }
-
-        // 管理员登录
-        function adminLogin() {
-            const username = document.getElementById('adminUsername').value;
-            const password = document.getElementById('adminPassword').value;
-            
-            if (username === 'llxxytb' && password === 'llxxytb2026') {
-                isAdminLoggedIn = true;
-                document.getElementById('adminLogin').style.display = 'none';
-                document.getElementById('adminActions').style.display = 'block';
-                generateClassSummary(); // 重新生成以显示删除按钮
-                alert('管理员登录成功！');
-            } else {
-                alert('账号或密码错误！');
-            }
-        }
-
-        // 管理员退出
-        function adminLogout() {
-            isAdminLoggedIn = false;
-            document.getElementById('adminLogin').style.display = 'flex';
-            document.getElementById('adminActions').style.display = 'none';
-            document.getElementById('addStudentForm').style.display = 'none';
-            document.getElementById('addTeamForm').style.display = 'none';
-            clearStudentForm();
-            clearTeamForm();
-            generateClassSummary(); // 重新生成以隐藏删除按钮
-            alert('已退出管理员登录');
-        }
-
-        // 填充校队选择框
-        function populateTeamSelect() {
-            const select = document.getElementById('studentTeam');
-            select.innerHTML = '';
-            
-            // 添加小学部校队
-            const primaryGroup = document.createElement('optgroup');
-            primaryGroup.label = '小学部';
-            Object.keys(teamData.primary).forEach(team => {
-                const option = document.createElement('option');
-                option.value = team;
-                option.textContent = team;
-                primaryGroup.appendChild(option);
-            });
-            select.appendChild(primaryGroup);
-            
-            // 添加初中部校队
-            const middleGroup = document.createElement('optgroup');
-            middleGroup.label = '初中部';
-            Object.keys(teamData.middle).forEach(team => {
-                const option = document.createElement('option');
-                option.value = team;
-                option.textContent = team;
-                middleGroup.appendChild(option);
-            });
-            select.appendChild(middleGroup);
-        }
-
-        // 保存学生
-        function saveStudent() {
-            const name = document.getElementById('studentName').value.trim();
-            const className = document.getElementById('studentClass').value.trim();
-            const team = document.getElementById('studentTeam').value;
-            
-            if (!name || !className || !team) {
-                alert('请填写完整信息！');
-                return;
-            }
-            
-            // 确定学部
-            let department = 'primary';
-            if (team in teamData.middle) {
-                department = 'middle';
-            }
-            
-            // 添加学生
-            const studentInfo = `${className}-${name}`;
-            if (!teamData[department][team].includes(studentInfo)) {
-                teamData[department][team].push(studentInfo);
-                document.getElementById('addStudentForm').style.display = 'none';
-                clearStudentForm();
-                generateClassSummary(); // 重新生成整个页面
-                updateTotalSummary(); // 更新统计信息
-                alert('学生添加成功！');
-            } else {
-                alert('该学生已在该校队中！');
-            }
-        }
-
-        // 删除学生
-        function deleteStudent(className, teamName, studentName, department) {
-            if (confirm(`确定要删除 ${className} 班的 ${studentName} 同学吗？`)) {
-                // 删除学生
-                const studentInfo = `${className}-${studentName}`;
-                const index = teamData[department][teamName].indexOf(studentInfo);
-                if (index > -1) {
-                    teamData[department][teamName].splice(index, 1);
-                    generateClassSummary(); // 重新生成整个页面
-                    updateTotalSummary(); // 更新统计信息
-                    alert('学生删除成功！');
-                }
-            }
-        }
-
-        // 删除校队
-        function deleteTeam(department, teamName, className) {
-            if (confirm(`确定要删除 ${className} 班的 ${teamName} 校队吗？这将删除该班所有该校队的学生！`)) {
-                // 删除该班级中该校队的所有学生
-                const studentsToRemove = teamData[department][teamName].filter(student => {
-                    return student.startsWith(className + '-');
-                });
-                
-                // 从校队中移除这些学生
-                studentsToRemove.forEach(student => {
-                    const index = teamData[department][teamName].indexOf(student);
-                    if (index > -1) {
-                        teamData[department][teamName].splice(index, 1);
-                    }
-                });
-                
-                generateClassSummary(); // 重新生成整个页面
-                updateTotalSummary(); // 更新统计信息
-                alert('校队删除成功！');
-            }
-        }
-
-        // 保存校队
-        function saveTeam() {
-            const teamName = document.getElementById('newTeamName').value.trim();
-            const teamType = document.getElementById('newTeamType').value;
-            
-            if (!teamName) {
-                alert('请输入校队名称！');
-                return;
-            }
-            
-            // 检查校队是否已存在
-            if (teamData[teamType][teamName]) {
-                alert('该校队已存在！');
-                return;
-            }
-            
-            // 添加校队
-            teamData[teamType][teamName] = [];
-            document.getElementById('addTeamForm').style.display = 'none';
-            clearTeamForm();
-            generateClassSummary(); // 重新生成整个页面
-            updateTotalSummary(); // 更新统计信息
-            alert('校队添加成功！');
-        }
-
-        // 清空学生表单
-        function clearStudentForm() {
-            document.getElementById('studentName').value = '';
-            document.getElementById('studentClass').value = '';
-        }
-
-        // 清空校队表单
-        function clearTeamForm() {
-            document.getElementById('newTeamName').value = '';
-            document.getElementById('newTeamType').value = 'primary';
-        }
     </script>
 </body>
 </html>
-
