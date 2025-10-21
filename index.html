@@ -92,6 +92,18 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0,0,0,0.15);
         }
+        .search-box button.download-btn {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+        }
+        .search-box button.download-btn:hover {
+            background: linear-gradient(135deg, #229954, #27ae60);
+        }
+        .search-box button.download-excel-btn {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+        .search-box button.download-excel-btn:hover {
+            background: linear-gradient(135deg, #c0392b, #a93226);
+        }
         .class-list {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -328,6 +340,8 @@
             }
         }
     </style>
+    <!-- 引入SheetJS库用于生成Excel文件 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
 <body>
     <div class="loading-overlay" id="loadingOverlay">
@@ -349,6 +363,8 @@
             <input type="text" id="searchInput" placeholder="输入班级、校队或学生姓名进行搜索...">
             <button id="searchButton">搜索</button>
             <button id="resetButton">重置</button>
+            <button id="downloadButton" class="download-btn">下载搜索结果(CSV)</button>
+            <button id="downloadExcelButton" class="download-excel-btn">下载全部(Excel)</button>
         </div>
         
         <div class="tabs">
@@ -415,6 +431,43 @@
             }
         };
 
+        // 专业上课时间数据
+        const teamSchedule = {
+            "小学啦啦操": "周一、周三 16:00-17:30",
+            "小学跆拳道": "周二、周四 16:30-18:00",
+            "小学轮滑": "周五 15:30-17:00",
+            "小学动漫": "周三 16:00-17:30",
+            "小学创意素描": "周四 16:00-17:30",
+            "小学播音主持": "周二 16:30-18:00",
+            "小学声乐": "周一、周三 16:30-18:00",
+            "小学围棋": "周五 16:00-17:30",
+            "小学羽毛球": "周一、周三、周五 16:30-18:00",
+            "小学篮球": "周二、周四 16:00-17:30",
+            "小学田径": "周一、周三、周五 16:00-17:30",
+            "小学软笔书法": "周四 16:00-17:30",
+            "小学素描": "周二 16:30-18:00",
+            "初中舞蹈李": "周一、周三 16:30-18:00",
+            "初中舞蹈周": "周二、周四 16:30-18:00",
+            "初中跆拳道": "周一、周三 17:00-18:30",
+            "初中声乐": "周二、周五 16:30-18:00",
+            "初中素描": "周四 16:30-18:00",
+            "初中田径陈": "周一、周三、周五 16:30-18:00",
+            "初中田径成": "周二、周四 16:30-18:00",
+            "初中播音主持": "周三 16:30-18:00",
+            "初中足球": "周一、周三、周五 16:30-18:00",
+            "初中羽毛球": "周二、周四 16:30-18:00",
+            "初中篮球": "周一、周三、周五 16:30-18:00",
+            "初中女子篮球": "周二、周四 16:30-18:00",
+            "初中武术": "周五 16:30-18:00",
+            "初中长笛": "周三 16:30-18:00"
+        };
+
+        // 存储当前搜索结果
+        let currentFilteredData = {
+            primary: {},
+            middle: {}
+        };
+
         // 初始化页面
         document.addEventListener('DOMContentLoaded', function() {
             try {
@@ -470,6 +523,10 @@
                         generateClassSummary();
                         saveStateToStorage();
                     });
+                    
+                    // 下载功能
+                    document.getElementById('downloadButton').addEventListener('click', downloadSearchResults);
+                    document.getElementById('downloadExcelButton').addEventListener('click', downloadAllTeamsExcel);
                 }, 800); // 延迟800ms展示加载动画
             } catch (error) {
                 console.error('初始化页面时出错:', error);
@@ -797,6 +854,7 @@
                     // 搜索小学部
                     if (teamData.primary && typeof teamData.primary === 'object') {
                         const filteredPrimary = filterTeams(teamData.primary, searchTerm);
+                        currentFilteredData.primary = filteredPrimary;
                         const primaryClasses = organizeByClass(filteredPrimary);
                         document.getElementById('primary-classes').innerHTML = '';
                         renderClassSummary('primary-classes', primaryClasses);
@@ -805,6 +863,7 @@
                     // 搜索初中部
                     if (teamData.middle && typeof teamData.middle === 'object') {
                         const filteredMiddle = filterTeams(teamData.middle, searchTerm);
+                        currentFilteredData.middle = filteredMiddle;
                         const middleClasses = organizeByClass(filteredMiddle);
                         document.getElementById('middle-classes').innerHTML = '';
                         renderClassSummary('middle-classes', middleClasses);
@@ -858,10 +917,142 @@
             
             return filtered;
         }
+
+        // 下载搜索结果(CSV格式)
+        function downloadSearchResults() {
+            try {
+                showLoading('正在生成下载文件...');
+                
+                // 延迟执行以展示加载动画
+                setTimeout(() => {
+                    // 准备CSV数据
+                    let csvContent = "学部,班级,姓名,专业,上课时间\n";
+                    
+                    // 处理搜索结果
+                    const searchTerm = document.getElementById('searchInput').value.trim();
+                    let dataToDownload = {};
+                    
+                    if (searchTerm) {
+                        // 使用搜索结果
+                        dataToDownload = currentFilteredData;
+                    } else {
+                        // 使用全部数据
+                        dataToDownload = teamData;
+                    }
+                    
+                    // 处理小学部数据
+                    if (dataToDownload.primary && typeof dataToDownload.primary === 'object') {
+                        for (const [teamName, students] of Object.entries(dataToDownload.primary)) {
+                            students.forEach(student => {
+                                const [classInfo, studentName] = student.split('-');
+                                const schedule = teamSchedule[teamName] || "未安排";
+                                csvContent += `小学部,${classInfo},${studentName},${teamName},${schedule}\n`;
+                            });
+                        }
+                    }
+                    
+                    // 处理初中部数据
+                    if (dataToDownload.middle && typeof dataToDownload.middle === 'object') {
+                        for (const [teamName, students] of Object.entries(dataToDownload.middle)) {
+                            students.forEach(student => {
+                                const [classInfo, studentName] = student.split('-');
+                                const schedule = teamSchedule[teamName] || "未安排";
+                                csvContent += `初中部,${classInfo},${studentName},${teamName},${schedule}\n`;
+                            });
+                        }
+                    }
+                    
+                    // 创建Blob对象
+                    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                    
+                    // 创建下载链接
+                    const link = document.createElement('a');
+                    const url = URL.createObjectURL(blob);
+                    link.setAttribute('href', url);
+                    link.setAttribute('download', `刘霖学校2025年秋季校队名单_${searchTerm || '全部'}.csv`);
+                    link.style.visibility = 'hidden';
+                    
+                    // 添加到页面并触发下载
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    
+                    hideLoading();
+                }, 500);
+            } catch (error) {
+                console.error('下载校队名单时出错:', error);
+                showError('下载校队名单时出错，请重试');
+                hideLoading();
+            }
+        }
+
+        // 下载全部校队数据(Excel格式，按专业分工作表)
+        function downloadAllTeamsExcel() {
+            try {
+                showLoading('正在生成Excel文件...');
+                
+                // 延迟执行以展示加载动画
+                setTimeout(() => {
+                    // 创建工作簿
+                    const wb = XLSX.utils.book_new();
+                    
+                    // 处理小学部数据
+                    if (teamData.primary && typeof teamData.primary === 'object') {
+                        for (const [teamName, students] of Object.entries(teamData.primary)) {
+                            // 创建工作表数据
+                            const wsData = [
+                                ['学部', '班级', '姓名', '专业', '上课时间']
+                            ];
+                            
+                            // 添加学生数据
+                            students.forEach(student => {
+                                const [classInfo, studentName] = student.split('-');
+                                const schedule = teamSchedule[teamName] || "未安排";
+                                wsData.push(['小学部', classInfo, studentName, teamName, schedule]);
+                            });
+                            
+                            // 创建工作表
+                            const ws = XLSX.utils.aoa_to_sheet(wsData);
+                            
+                            // 将工作表添加到工作簿
+                            XLSX.utils.book_append_sheet(wb, ws, teamName);
+                        }
+                    }
+                    
+                    // 处理初中部数据
+                    if (teamData.middle && typeof teamData.middle === 'object') {
+                        for (const [teamName, students] of Object.entries(teamData.middle)) {
+                            // 创建工作表数据
+                            const wsData = [
+                                ['学部', '班级', '姓名', '专业', '上课时间']
+                            ];
+                            
+                            // 添加学生数据
+                            students.forEach(student => {
+                                const [classInfo, studentName] = student.split('-');
+                                const schedule = teamSchedule[teamName] || "未安排";
+                                wsData.push(['初中部', classInfo, studentName, teamName, schedule]);
+                            });
+                            
+                            // 创建工作表
+                            const ws = XLSX.utils.aoa_to_sheet(wsData);
+                            
+                            // 将工作表添加到工作簿
+                            XLSX.utils.book_append_sheet(wb, ws, teamName);
+                        }
+                    }
+                    
+                    // 生成Excel文件并下载
+                    XLSX.writeFile(wb, '刘霖学校2025年秋季校队名单_全部.xlsx');
+                    
+                    hideLoading();
+                }, 500);
+            } catch (error) {
+                console.error('生成Excel文件时出错:', error);
+                showError('生成Excel文件时出错，请重试');
+                hideLoading();
+            }
+        }
     </script>
 </body>
 </html>
-
-
-
-
